@@ -7,15 +7,14 @@
 
 #include "kimera_vio_ros/RosOnlineDataProvider.h"
 
-#include <string>
-#include <vector>
-
-#include <glog/logging.h>
-
 #include <geometry_msgs/PoseStamped.h>
+#include <glog/logging.h>
 #include <sensor_msgs/image_encodings.h>
 #include <std_msgs/Bool.h>
 #include <tf2_ros/static_transform_broadcaster.h>
+
+#include <string>
+#include <vector>
 
 #include "kimera_vio_ros/utils/UtilsRos.h"
 
@@ -53,11 +52,10 @@ RosOnlineDataProvider::RosOnlineDataProvider(const VioParams& vio_params)
   if (vio_params_.backend_params_->autoInitialize_ == 0) {
     LOG(INFO) << "Requested initialization from ground-truth. "
               << "Initializing ground-truth odometry one-shot subscriber.";
-    gt_odom_subscriber_ =
-        nh_.subscribe("gt_odom",
-                      kMaxGtOdomQueueSize,
-                      &RosOnlineDataProvider::callbackGtOdom,
-                      this);
+    gt_odom_subscriber_ = nh_.subscribe("gt_odom",
+                                        kMaxGtOdomQueueSize,
+                                        &RosOnlineDataProvider::callbackGtOdom,
+                                        this);
 
     // We wait for the gt pose.
     LOG(WARNING) << "Waiting for ground-truth pose to initialize VIO "
@@ -286,43 +284,6 @@ void RosOnlineDataProvider::callbackIMU(
         << "Did you forget to register the IMU callback?";
     imu_single_callback_(ImuMeasurement(timestamp, imu_accgyr));
   }
-}
-
-// Ground-truth odometry callback
-void RosOnlineDataProvider::callbackGtOdom(
-    const nav_msgs::Odometry::ConstPtr& gt_odom_msg) {
-  CHECK(gt_odom_msg);
-  if (!gt_init_pose_received_) {
-    LOG(WARNING) << "Using initial ground-truth state for initialization.";
-    utils::rosOdometryToVioNavState(
-        *gt_odom_msg,
-        nh_private_,
-        &vio_params_.backend_params_->initial_ground_truth_state_);
-
-    // Signal receptance of ground-truth pose.
-    gt_init_pose_received_ = true;
-  }
-
-  CHECK(gt_init_pose_received_);
-  if (log_gt_data_) {
-    logGtData(gt_odom_msg);
-  } else {
-    // Shutdown to prevent more than one message being processed.
-    gt_odom_subscriber_.shutdown();
-  }
-}
-
-void RosOnlineDataProvider::callbackExternalOdom(
-    const nav_msgs::Odometry::ConstPtr& odom_msg) {
-  CHECK(odom_msg);
-  VIO::VioNavState kimera_odom;
-  utils::rosOdometryToVioNavState(
-      *odom_msg,
-      nh_private_,
-      &kimera_odom);
-  external_odom_callback_(ExternalOdomMeasurement(
-      odom_msg->header.stamp.toNSec(),
-      gtsam::NavState(kimera_odom.pose_, kimera_odom.velocity_)));
 }
 
 // Reinitialization callback

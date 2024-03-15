@@ -6,11 +6,10 @@
 
 #include "kimera_vio_ros/RosLoopClosureVisualizer.h"
 
-#include <string>
-
-#include <glog/logging.h>
-
 #include <geometry_msgs/TransformStamped.h>
+#include <glog/logging.h>
+#include <kimera-vio/loopclosure/LoopClosureDetector-definitions.h>
+#include <kimera-vio/pipeline/QueueSynchronizer.h>
 #include <nav_msgs/Odometry.h>
 #include <nav_msgs/Path.h>
 #include <ros/ros.h>
@@ -18,8 +17,7 @@
 #include <tf/transform_broadcaster.h>
 #include <tf2/buffer_core.h>
 
-#include <kimera-vio/loopclosure/LoopClosureDetector-definitions.h>
-#include <kimera-vio/pipeline/QueueSynchronizer.h>
+#include <string>
 
 #include "kimera_vio_ros/utils/UtilsRos.h"
 
@@ -59,7 +57,7 @@ void RosLoopClosureVisualizer::publishOptimizedTrajectory(
     const LcdOutput::ConstPtr& lcd_output) {
   CHECK(lcd_output);
 
-  // Get pgo-optimized trajectory
+  // Get pgo-optimized trajectory}
   const Timestamp& ts = lcd_output->timestamp_;
   const gtsam::Values& trajectory = lcd_output->states_;
   // Create message type

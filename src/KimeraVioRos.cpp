@@ -97,7 +97,7 @@ bool KimeraVioRos::runKimeraVio() {
                  << ". 0: Mono, 1: Stereo.";
     } break;
   }
-  
+
   CHECK(vio_pipeline_) << "Vio pipeline construction failed.";
 
   // Finally, connect data_provider and vio_pipeline
@@ -111,8 +111,6 @@ bool KimeraVioRos::runKimeraVio() {
 bool KimeraVioRos::spin() {
   CHECK(vio_params_);
   CHECK(vio_pipeline_);
-  CHECK(data_provider_);
-
   auto tic = VIO::utils::Timer::tic();
   bool is_pipeline_successful = false;
   if (vio_params_->parallel_run_) {
