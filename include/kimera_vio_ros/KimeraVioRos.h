@@ -3,12 +3,11 @@
  * @author Antoni Rosinol
  */
 
-#include <ros/ros.h>
-#include <std_srvs/Trigger.h>
-
 #include <kimera-vio/pipeline/Pipeline-definitions.h>
 #include <kimera-vio/pipeline/Pipeline.h>
 #include <kimera-vio/utils/Macros.h>
+#include <ros/ros.h>
+#include <std_srvs/Trigger.h>
 
 #include "kimera_vio_ros/RosDataProviderInterface.h"
 #include "kimera_vio_ros/RosDisplay.h"

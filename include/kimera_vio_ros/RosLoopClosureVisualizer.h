@@ -11,25 +11,21 @@
 
 #define PCL_NO_PRECOMPILE  // Define this before you include any PCL headers
                            // to include the templated algorithms
-#include <pcl/point_types.h>
-#include <pcl_ros/point_cloud.h>
-
-#include <opencv2/opencv.hpp>
-
 #include <glog/logging.h>
-
-#include <ros/ros.h>
-#include <tf/transform_broadcaster.h>
-
-#include <pose_graph_tools/PoseGraph.h>
-#include <pose_graph_tools/PoseGraphEdge.h>
-#include <pose_graph_tools/PoseGraphNode.h>
-
 #include <kimera-vio/backend/VioBackend-definitions.h>
 #include <kimera-vio/frontend/StereoVisionImuFrontend-definitions.h>
 #include <kimera-vio/loopclosure/LoopClosureDetector-definitions.h>
 #include <kimera-vio/loopclosure/LoopClosureDetector.h>
 #include <kimera-vio/mesh/Mesher-definitions.h>
+#include <pcl/point_types.h>
+#include <pcl_ros/point_cloud.h>
+#include <pose_graph_tools/PoseGraph.h>
+#include <pose_graph_tools/PoseGraphEdge.h>
+#include <pose_graph_tools/PoseGraphNode.h>
+#include <ros/ros.h>
+#include <tf/transform_broadcaster.h>
+
+#include <opencv2/opencv.hpp>
 
 #include "kimera_vio_ros/RosPublishers.h"
 

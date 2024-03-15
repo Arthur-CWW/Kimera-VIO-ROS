@@ -7,11 +7,7 @@
 
 #pragma once
 
-#include <functional>
-#include <string>
-
-#include <opencv2/opencv.hpp>
-
+#include <kimera-vio/pipeline/Pipeline-definitions.h>
 #include <nav_msgs/Odometry.h>
 #include <ros/console.h>
 #include <ros/ros.h>
@@ -20,7 +16,10 @@
 #include <sensor_msgs/Image.h>
 #include <sensor_msgs/Imu.h>
 
-#include <kimera-vio/pipeline/Pipeline-definitions.h>
+#include <functional>
+#include <opencv2/opencv.hpp>
+#include <string>
+
 #include "kimera_vio_ros/RosDataProviderInterface.h"
 
 namespace VIO {
@@ -67,7 +66,7 @@ class RosbagDataProvider : public RosDataProviderInterface {
 
   void sendImuDataToVio();
 
-  void sendExternalOdometryToVio();
+  // void sendExternalOdometryToVio();
 
   // Get ground-truth nav state for VIO initialization.
   // It uses odometry messages inside of the rosbag as ground-truth (indexed
