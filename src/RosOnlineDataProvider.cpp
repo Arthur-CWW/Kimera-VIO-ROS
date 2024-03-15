@@ -141,15 +141,15 @@ RosOnlineDataProvider::RosOnlineDataProvider(const VioParams& vio_params)
   CHECK(!right_cam_frame_id_.empty());
 
   // External Odometry Subscription
-  CHECK(nh_private_.getParam("use_external_odom", use_external_odom_));
-  if (use_external_odom_) {
-    static constexpr size_t kMaxExternalOdomQueueSize = 1000u;
-    external_odom_subscriber_ =
-        nh_.subscribe("external_odom",
-                      kMaxExternalOdomQueueSize,
-                      &RosOnlineDataProvider::callbackExternalOdom,
-                      this);
-  }
+  // CHECK(nh_private_.getParam("use_external_odom", use_external_odom_));
+  // if (use_external_odom_) {
+  //   static constexpr size_t kMaxExternalOdomQueueSize = 1000u;
+  //   external_odom_subscriber_ =
+  //       nh_.subscribe("external_odom",
+  //                     kMaxExternalOdomQueueSize,
+  //                     &RosOnlineDataProvider::callbackExternalOdom,
+  //                     this);
+  // }
 
   publishStaticTf(vio_params_.camera_params_.at(0).body_Pose_cam_,
                   base_link_frame_id_,

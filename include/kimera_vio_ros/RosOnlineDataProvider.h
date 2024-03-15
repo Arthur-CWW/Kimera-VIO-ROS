@@ -15,8 +15,8 @@
 #include <sensor_msgs/Imu.h>
 #include <std_msgs/Bool.h>
 
-#include "kimera_vio_ros/RosDataProviderInterface.h"
 #include "kimera-vio/frontend/StereoImuSyncPacket.h"
+#include "kimera_vio_ros/RosDataProviderInterface.h"
 
 namespace VIO {
 
@@ -82,8 +82,9 @@ class RosOnlineDataProvider : public RosDataProviderInterface {
   // GT odometry callback
   void callbackGtOdom(const nav_msgs::Odometry::ConstPtr& gt_odom_msg);
 
-  // External odometry callback
-  void callbackExternalOdom(const nav_msgs::Odometry::ConstPtr& odom_msg);
+  // // External odometry callback
+  // Removed this option use_external_odom_
+  // void callbackExternalOdom(const nav_msgs::Odometry::ConstPtr& odom_msg);
 
   // Reinitialization callback
   void callbackReinit(const std_msgs::Bool::ConstPtr& reinitFlag);
