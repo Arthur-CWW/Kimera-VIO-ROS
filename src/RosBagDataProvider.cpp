@@ -8,10 +8,8 @@
 #include "kimera_vio_ros/RosBagDataProvider.h"
 
 #include <glog/logging.h>
-
-#include <rosgraph_msgs/Clock.h>
-
 #include <kimera-vio/pipeline/Pipeline-definitions.h>
+#include <rosgraph_msgs/Clock.h>
 
 #include "kimera_vio_ros/utils/UtilsRos.h"
 
@@ -124,29 +122,11 @@ void RosbagDataProvider::sendImuDataToVio() {
   }
 }
 
-void RosbagDataProvider::sendExternalOdometryToVio() {
-  CHECK(external_odom_callback_)
-      << "Did you forget to register the external odometry callback?";
-  for (const nav_msgs::OdometryConstPtr& odom_msg :
-       rosbag_data_.external_odom_) {
-    const Timestamp timestamp = odom_msg->header.stamp.toNSec();
-
-    VIO::VioNavState kimera_odom;
-    utils::rosOdometryToVioNavState(*odom_msg, nh_private_, &kimera_odom);
-
-    external_odom_callback_(ExternalOdomMeasurement(
-        timestamp, gtsam::NavState(kimera_odom.pose_, kimera_odom.velocity_)));
-  }
-}
-
 bool RosbagDataProvider::spin() {
   if (k_ == 0u) {
     // Send IMU data directly to VIO for speed boost
     sendImuDataToVio();
     // Send external odometry directly to VIO as well
-    if (use_external_odom_) {
-      sendExternalOdometryToVio();
-    }
   }
 
   // We break the while loop (but increase k_!) if we run in sequential mode.
@@ -424,12 +404,13 @@ void RosbagDataProvider::publishInputs(const Timestamp& timestamp_kf) {
 
   // Publish external odometry data if available:
   if (k_last_odom_ < rosbag_data_.external_odom_.size()) {
-    while (timestamp_last_odom_ < timestamp_kf && 
+    while (timestamp_last_odom_ < timestamp_kf &&
            k_last_odom_ < rosbag_data_.external_odom_.size()) {
-      external_odometry_pub_.publish(rosbag_data_.external_odom_.at(k_last_odom_));
+      external_odometry_pub_.publish(
+          rosbag_data_.external_odom_.at(k_last_odom_));
       timestamp_last_odom_ =
           rosbag_data_.external_odom_.at(k_last_odom_)->header.stamp.toNSec();
-      k_last_odom_++;         
+      k_last_odom_++;
     }
   }
 
