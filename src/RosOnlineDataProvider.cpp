@@ -50,8 +50,8 @@ RosOnlineDataProvider::RosOnlineDataProvider(const VioParams& vio_params)
   // Define ground truth odometry Subsrciber
   static constexpr size_t kMaxGtOdomQueueSize = 1u;
   if (vio_params_.backend_params_->autoInitialize_ == 0) {
-    LOG(INFO) << "Requested initialization from ground-truth. "
-              << "Initializing ground-truth odometry one-shot subscriber.";
+    // LOG(INFO) << "Requested initialization from ground-truth. "
+    //           << "Initializing ground-truth odometry one-shot subscriber.";
     // gt_odom_subscriber_ = nh_.subscribe("gt_odom",
     //                                     kMaxGtOdomQueueSize,
     //                                     &RosOnlineDataProvider::callbackGtOdom,
