@@ -28,7 +28,7 @@ RosOnlineDataProvider::RosOnlineDataProvider(const VioParams& vio_params)
       right_img_subscriber_(),
       sync_img_(),
       imu_subscriber_(),
-      gt_odom_subscriber_(),
+      // gt_odom_subscriber_(),
       external_odom_subscriber_(),
       reinit_flag_subscriber_(),
       reinit_pose_subscriber_(),
@@ -52,14 +52,15 @@ RosOnlineDataProvider::RosOnlineDataProvider(const VioParams& vio_params)
   if (vio_params_.backend_params_->autoInitialize_ == 0) {
     LOG(INFO) << "Requested initialization from ground-truth. "
               << "Initializing ground-truth odometry one-shot subscriber.";
-    gt_odom_subscriber_ = nh_.subscribe("gt_odom",
-                                        kMaxGtOdomQueueSize,
-                                        &RosOnlineDataProvider::callbackGtOdom,
-                                        this);
+    // gt_odom_subscriber_ = nh_.subscribe("gt_odom",
+    //                                     kMaxGtOdomQueueSize,
+    //                                     &RosOnlineDataProvider::callbackGtOdom,
+    //                                     this);
 
     // We wait for the gt pose.
-    LOG(WARNING) << "Waiting for ground-truth pose to initialize VIO "
-                 << "on ros topic: " << gt_odom_subscriber_.getTopic().c_str();
+    // LOG(WARNING) << "Waiting for ground-truth pose to initialize VIO "
+    //              << "on ros topic: " <<
+    //              gt_odom_subscriber_.getTopic().c_str();
     static const ros::Duration kMaxTimeSecsForGtPose(3.0);
     ros::Time start = ros::Time::now();
     ros::Time current = ros::Time::now();
